@@ -1,0 +1,370 @@
+<div *ngFor="let user of singleData; let i =index">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2">
+                    <button (click)="backBtn.back()" class="fancyButton width-75-px md-button md-ink-ripple" type="button">Back</button>
+                </div>
+                <div class="col-lg-8" style="padding-top: 12px; text-align: center;">
+                    <label style="text-align: center;font-size: 25px;" class="ng-binding">Driver ID :</label>
+                    <label style="text-align: center;margin-left: 2%;font-size: 25px;" class="ng-binding">{{user.driver_id}}</label>
+                </div>
+                <div class="col-lg-2">
+                    <button class="fancyButton width-75-px md-button md-ink-ripple" type="button" style="float: right;">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid form-horizontal" role="form">
+            <div class="row">
+                <div class="col-lg-9 col-md-9">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="userpic" class="userpic" style="padding: 10px">
+                                        <div>
+                                            <div class="userPic" style="text-align: center">
+                                                <img id="imageShow" class="width-100-percent" style="width:200;height:200px" *ngIf="image" alt="" profilepic="" crossorigin="anonymous" aria-hidden="false" src="../../../../assets/img/default-profile.png">
+                                                <canvas style="display:none" id="canvas"></canvas>
+                                            </div>
+                                            <div class="text-center userPic" style="height:134px;" *ngIf="!showDetails" aria-hidden="false">
+                                                <label style="margin-top:7%" class="ng-binding">{{user.driver_id}}</label>
+                                                <br>
+                                                <label class="ng-binding">{{user.driver_name}}</label>
+                                                <br>
+                                                <hr style="border: solid 1px #eaeaea;margin-top: 0px;margin-bottom: 5px;">
+                                                <div>
+                                                    <span class="ng-binding">Registered On:</span>
+                                                    <span class="ng-binding">{{user.driver_created}}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="ng-binding">App Version:</span>
+                                                    <span class="ng-binding">435</span>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="!details" style="float:left;margin-left:5%" aria-hidden="true" class="ng-hide">
+                                                <span style="color:red">**
+                                                    <i class="ng-binding">Please upload picture of 300x300 pixels.(in JPEG format)</i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7">
+                            <form name="driverForm" class="ng-pristine ng-valid-pattern ng-valid-email ng-valid-maxlength ng-valid ng-valid-required">
+                                <div class="card">
+                                    <div class="card-body" style="margin: 0">
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span for="driver_name" class="control-label ng-binding">Driver Name</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-label">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" *ngIf="!showDetails" aria-hidden="false">
+                                                <span class="control-label ng-binding">{{user.driver_name}}</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6 ng-hide" *ngIf="showDetails" aria-hidden="true">
+                                                <input type="text" class="form-control width-80-percent ng-pristine ng-untouched ng-valid-pattern ng-valid ng-valid-required" id="driver_name" ng-model="edit.driver_name" name="driver_name" ng-pattern="/^(?!.*[\,@#$%*])/" placeholder="Enter Driver Name" required="" aria-invalid="false">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span class="control-span ng-binding">Contact No</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-span">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6">
+                                                <span class="control-span ng-binding">+91 {{user.driver_phone}}</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" *ngIf="!details" style="margin-bottom:10px">
+                                            <div class="input-group width-80-percent">
+                                                <span class="input-group-addon" id="basic-addon1">+91</span>
+                                                <input type="text" class="form-control" name="contact_no" id="contact_no" ng-model="edit.driver_contact_no" placeholder="Enter Contact Number"
+                                                    maxlength="13" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span class="control-span ng-binding">Alternate Contact No</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-span">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6">
+                                                <span class="control-span ng-binding">--</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6 ng-hide" *ngIf="!details" style="margin-bottom:10px" aria-hidden="true">
+                                                <div class="input-group width-80-percent">
+                                                    <span class="input-group-addon" id="basic-addon2">+91</span>
+                                                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength" name="contact_no" id="alternate_contact_no" ng-model="edit.alternate_phone_no" placeholder="Alternate Contact Number" maxlength="10" aria-describedby="basic-addon2" aria-invalid="false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span for="driver_name" class="control-label ng-binding">Email ID</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-label">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6 ng-hide" *ngIf="!showDetails" aria-hidden="true">
+                                                <!--ng-disabled="Driver_Name"-->
+                                                <span class="control-label ng-binding">temp_91220328017@email.com</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" *ngIf="showDetails" aria-hidden="false">
+                                                <input type="email" class="form-control width-80-percent ng-pristine ng-valid-email ng-valid ng-valid-required ng-touched" title="Please enter a valid email" id="email_id" ng-model="edit.driver_email_id" name="email_id" placeholder="Enter Email ID" required="" aria-invalid="false">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span for="driver_name" class="control-label ng-binding">Address</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-label">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6 ng-hide" *ngIf="!showDetails" aria-hidden="true">
+                                                <span class="control-label ng-binding">{{user.driver_address}}</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" *ngIf="showDetails" aria-hidden="false">
+                                                <input type="text" class="form-control width-80-percent ng-pristine ng-valid ng-touched" id="driver_address" ng-model="edit.driver_address" name="driver_address" placeholder="Enter Driver Address" aria-invalid="false">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span class="control-span ng-binding">City</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-span">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" *ngIf="showDetails" aria-hidden="false">
+                                                <select class="form-control width-80-percent ng-pristine ng-untouched ng-valid" ng-model="edit.driver_city" ng-change="updateVehicle()" aria-invalid="false">
+                                                    ngRepeat: city in cityList --><option ng-selected="city.city_id == edit.driver_city" ng-repeat="city in cityList" value="51" class="ng-binding row" selected="selected">
+                                                    Mumbai
+                                                    </option>ngRepeat: city in cityList -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span class="control-span ng-binding">Total Rides</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-span">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6">
+                                                <span class="control-span ng-binding">
+                                                    2
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-5 col-xs-5">
+                                                <span class="control-span ng-binding">Total unique Rides</span>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-1">
+                                                <span class="control-span">:</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6">
+                                                <span class="control-span ng-binding">
+                                                    1
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center" *ngIf="user.driver_status === 3"> <!-- -->
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(ActiveDriver)">
+                                    <span class="ng-binding">Activate </span>
+                                </button>
+                            </div>
+                            <div class="text-center" *ngIf="user.driver_status === 4">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(DeactiveDriver)">
+                                    <span class="ng-binding">Deactivated </span>
+                                </button>
+                            </div>
+                            <!-- <div class="text-center">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(DeleteDriver)">
+                                    <span class="ng-binding">Delete Driver </span>
+                                </button>
+                            </div> -->
+                            <div class="text-center">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" (click)="getDriverDetails()">
+                                    <span class="ng-binding">Driver Details </span>
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(DriverHistory)">
+                                    <span class="ng-binding">Driver History </span>
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="" (click)="getDriverDocs()">
+                                    <span class="ng-binding">Documents </span>
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <button class="fancyButton width-95-percent md-button md-ink-ripple" type="button" ng-transclude="">
+                                    <span class="ng-binding">Ride Request Details </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <ng-template #ActiveDriver let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ok</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            Reason for Activation
+            <span *ngIf="ActiveStatus" style="color: green;">Driver Acticated Successfully</span>
+            <form [formGroup]="driver_active_form" (ngSubmit)="saveActiveDriver(driver_active_form.value)">
+                <div class="form-group">
+                    <select style="width:100%;margin: 12px auto 0px;" formControlName="status_name" class="form-control ng-pristine ng-valid ng-touched" ng-model="driver_Block_reason.val" aria-invalid="false">
+                        <option value="{{reasonData.id}}" class="ng-binding ng-scope" *ngFor="let reasonData of ActivationData; let i =index">{{reasonData.status_name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea formControlName="remark" style="width: 100%;margin: 12px auto 0px" rows="5" class="form-control ng-pristine ng-valid ng-touched" ng-model="newSuspendText" placeholder="Enter comments..." aria-invalid="false"></textarea>
+                </div>
+                <input type="hidden" formControlName="driver_id" [(ngModel)]="user.driver_id">
+                <div class="form-group">
+                    <button class="fancyButton md-button md-ink-ripple" type="submit" ng-transclude="" data-dismiss="modal" aria-hidden="true">Activate</button>
+                    <button class="md-warn md-button md-ink-ripple" type="button" ng-transclude="" data-dismiss="modal" aria-hidden="true"(click)="modal.close('Save click')"><span class="ng-binding ng-scope">Cancel</span></button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+    </ng-template>
+
+    <ng-template #DeactiveDriver let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ok</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="driver_deactive_form" (ngSubmit)="saveDeactiveDriver(driver_deactive_form.value)">
+                Reason for Deactivation
+                <span *ngIf="DeactiveStatus" style="color: green;">Driver Deacticated Successfully</span>
+                <div class="form-group">
+                    <select style="width:100%;margin: 12px auto 0px;" formControlName="status_name" class="form-control ng-pristine ng-valid ng-touched" ng-model="driver_Block_reason.val" aria-invalid="false">
+                        <option value="{{reasonData.id}}" class="ng-binding ng-scope" *ngFor="let reasonData of DeactivationData; let i =index">{{reasonData.status_name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea formControlName="remark" style="width: 100%;margin: 12px auto 0px" rows="5" class="form-control ng-pristine ng-valid ng-touched" ng-model="newSuspendText" placeholder="Enter comments..." aria-invalid="false"></textarea>
+                </div>
+                <input type="hidden" formControlName="driver_id" [(ngModel)]="user.driver_id">
+                <div class="form-group">
+                    <button class="fancyButton md-button md-ink-ripple" type="submit" ng-transclude="" data-dismiss="modal" aria-hidden="true">Deactivate</button>
+                    <button class="md-warn md-button md-ink-ripple" type="button" ng-transclude="" data-dismiss="modal" aria-hidden="true"(click)="modal.close('Save click')"><span class="ng-binding ng-scope">Cancel</span></button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+    </ng-template>
+
+    <ng-template #DeleteDriver let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete Driver</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h4>Reason</h4>
+        <div class="form-group">
+            <textarea style="width: 100%;margin: 12px auto 0px" rows="5" class="form-control ng-pristine ng-valid ng-touched" ng-model="newSuspendText" placeholder="Enter comments..." aria-invalid="false"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" data-dismiss="modal" aria-hidden="true">Delete</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+    </ng-template>
+
+    <ng-template #DriverHistory let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ok</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            Driver History
+            <table id="datatable_history" class="table table-striped ">
+                <thead class="thead-style">
+                    <tr>
+                        <th class="ng-binding">Edited By</th>
+                        <th class="ng-binding">Date</th>
+                        <th class="ng-binding">Action on</th>
+                        <th class="ng-binding">Field Changed</th>
+                        <th class="ng-binding">Updated Value</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="h_data in history_data |orderBy:'added_at':true" class="ng-scope">
+                        <td class="ng-binding"></td>
+                        <td class="ng-binding">31-03-2022 08:17 PM</td>
+                        <td class="ng-binding">Driver Suspended</td>
+                        <td class="ng-binding">Driver Suspension</td>
+                        <td class="ng-binding">Driver Suspended</td>
+                    </tr>
+                    <tr ng-repeat="h_data in history_data |orderBy:'added_at':true" class="ng-scope">
+                        <td class="ng-binding"></td>
+                        <td class="ng-binding">30-03-2022 12:05 AM</td>
+                        <td class="ng-binding">Driver Unsuspended</td>
+                        <td class="ng-binding">Driver Unsuspension</td>
+                        <td class="ng-binding">Unsuspended</td>
+                    </tr>
+                    <tr ng-repeat="h_data in history_data |orderBy:'added_at':true" class="ng-scope">
+                        <td class="ng-binding"></td>
+                        <td class="ng-binding">30-03-2022 12:01 AM</td>
+                        <td class="ng-binding">Driver Suspended</td>
+                        <td class="ng-binding">Driver Suspension</td>
+                        <td class="ng-binding">Driver Suspended</td>
+                    </tr>
+                    <tr ng-repeat="h_data in history_data |orderBy:'added_at':true" class="ng-scope">
+                        <td class="ng-binding">singh.kaushik60@gmail.com</td>
+                        <td class="ng-binding">28-03-2022 04:41 PM</td>
+                        <td class="ng-binding">Enabled</td>
+                        <td class="ng-binding">Updating Automatic Ride Accept</td>
+                        <td class="ng-binding">Enabled</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+    </ng-template>
+</div>

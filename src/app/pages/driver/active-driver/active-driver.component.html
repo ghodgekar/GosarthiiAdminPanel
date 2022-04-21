@@ -1,0 +1,129 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Active Driver</h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Active Driver</li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(AddDriver)">
+                    <span class="ng-binding">Add Driver </span>
+                </button>
+                <br><br>
+                <table class="table table-bordered table-striped table-hover" datatable  [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Driver ID</th>
+                            <th>Driver Name</th>
+                            <th>Phone Number</th>
+                            <th>Registered On</th>
+                            <th>Last Updated</th>
+                            <th>No of docs uploaded</th>
+                            <th>Action</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of allUsers; let i =index" (click)="getDriverDetails(user.driver_id)">
+                            <td>{{ i + 1}}</td>
+                            <td>{{ user.driver_id }}</td>
+                            <td>{{ user.driver_name }}</td>
+                            <td>{{ user.driver_phone }}</td>
+                            <td>{{ user.driver_created }}</td>
+                            <td>{{ user.driver_updated }}</td>
+                            <td>1</td>
+                            <td>edit</td>
+                            <td>a</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #AddDriver let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Driver</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="driver_form" (ngSubmit)="saveDriverData(driver_form.value)">
+            <div class="form-group row">
+                <label class="control-label col-sm-2" for="driver_name">Driver Name:</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="driver_name" placeholder="Enter Driver Name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2" for="driver_phone">Driver Phone No:</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="driver_phone" placeholder="Enter Driver Phone No">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2" for="device_type">Device Type:</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="device_type" placeholder="Select Device Type">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2" for="driver_address">Address:</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" formControlName="driver_address" placeholder="Enter Device Address"></textarea>
+                </div>
+            </div>
+            <div >
+                <div class="form-group row">
+                    <label class="control-label col-sm-2" for="driver_state">State:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" formControlName="driver_state">
+                            <option>Select</option>
+                            <option *ngFor="let StateData of StateCity" value="{{StateData.id}}">{{StateData.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-sm-2" for="driver_city">City:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName="driver_city" placeholder="Enter City">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2" for="driver_pincode">Pincode:</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="driver_pincode" placeholder="Enter Pincode">
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="fancyButton md-button md-ink-ripple" type="submit" ng-transclude="" data-dismiss="modal" aria-hidden="true">Add</button>
+                <button class="md-warn md-button md-ink-ripple" type="button" ng-transclude="" data-dismiss="modal" aria-hidden="true"><span class="ng-binding ng-scope">Cancel</span></button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>

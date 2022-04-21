@@ -1,0 +1,73 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Driver Enrollment</h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Driver Enrollment</li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <ul class="fancy-tabs nav nav-tabs">
+                    <li class="col-md-4 col-xs-12 text-center ng-scope active" style="padding:0px 0px 0px 0px;" ng-repeat="tab in driverTabs" (click)="getTableData(1)" role="button">
+                        <a data-toggle="tab" class="ng-binding" aria-expanded="true">Drivers - Not Uploaded Documents</a>
+                    </li>
+                    <li class="col-md-4 col-xs-12 text-center ng-scope" style="padding:0px 0px 0px 0px;" ng-repeat="tab in driverTabs" (click)="getTableData(2)" role="button">
+                        <a data-toggle="tab" class="ng-binding" aria-expanded="true">Drivers - Uploaded Documents</a>
+                    </li>
+                    <li class="col-md-4 col-xs-12 text-center ng-scope" style="padding:0px 0px 0px 0px;" ng-repeat="tab in driverTabs" (click)="getTableData(4)" role="button">
+                        <a data-toggle="tab" class="ng-binding" aria-expanded="true">Drivers - Active</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-hover" datatable  [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Driver ID</th>
+                        <th>Driver Name</th>
+                        <th>Phone Number</th>
+                        <th>Registered On</th>
+                        <th>Last Updated</th>
+                        <!-- <th>No of docs uploaded</th>
+                        <th>Action</th>
+                        <th>Status</th> -->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let user of allUsers; let i =index" (click)="getDriverDetails(user.driver_id)">
+                        <td>{{ i + 1}}</td>
+                        <td>{{ user.driver_id }}</td>
+                        <td>{{ user.driver_name }}</td>
+                        <td>{{ user.driver_phone }}</td>
+                        <td>{{ user.driver_created  | date:'dd-MM-yyyy'}}</td>
+                        <td>{{ user.driver_updated  | date:'dd-MM-yyyy'}}</td>
+                        <!-- <td></td>
+                        <td></td>
+                        <td></td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

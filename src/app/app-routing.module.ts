@@ -1,0 +1,103 @@
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {MainComponent} from '@modules/main/main.component';
+import {BlankComponent} from '@pages/blank/blank.component';
+import {LoginComponent} from '@modules/login/login.component';
+import {ProfileComponent} from '@pages/profile/profile.component';
+import {RegisterComponent} from '@modules/register/register.component';
+import {DashboardComponent} from '@pages/dashboard/dashboard.component';
+import {AuthGuard} from '@guards/auth.guard';
+import {NonAuthGuard} from '@guards/non-auth.guard';
+import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
+import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
+import {PrivacyPolicyComponent} from '@modules/privacy-policy/privacy-policy.component';
+import {MainMenuComponent} from '@pages/main-menu/main-menu.component';
+import {SubMenuComponent} from '@pages/main-menu/sub-menu/sub-menu.component';
+import { DriverEnrollmentComponent } from '@pages/driver/driver-enrollment/driver-enrollment.component';
+import { ActiveDriverComponent } from '@pages/driver/active-driver/active-driver.component';
+import { DeactivatedDriverComponent } from '@pages/driver/deactivated-driver/deactivated-driver.component';
+import { DriverDetailsComponent } from '@pages/driver/driver-details/driver-details.component';
+import { SelfEnrolledDriverDetailsComponent } from '@pages/driver/self-enrolled-driver-details/self-enrolled-driver-details.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: MainComponent,
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [
+            {
+                path: 'profile',
+                component: ProfileComponent
+            },
+            {
+                path: 'blank',
+                component: BlankComponent
+            },
+            {
+                path: 'sub-menu-1',
+                component: SubMenuComponent
+            },
+            {
+                path: 'sub-menu-2',
+                component: BlankComponent
+            },
+            {
+                path: '',
+                component: DashboardComponent
+            },
+            {
+                path: 'driver-enrollment',
+                component: DriverEnrollmentComponent
+            },
+            {
+                path: 'active-driver',
+                component: ActiveDriverComponent
+            },
+            {
+                path: 'deactivated-driver',
+                component: DeactivatedDriverComponent
+            },
+            {
+                path: 'driver-details/:driver_id',
+                component: DriverDetailsComponent
+            },
+            {
+                path: 'self-enrolled-driver-details/:driver_id',
+                component: SelfEnrolledDriverDetailsComponent
+            },
+        ]
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+        canActivate: [NonAuthGuard]
+    },
+    {
+        path: 'register',
+        component: RegisterComponent,
+        canActivate: [NonAuthGuard]
+    },
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+        canActivate: [NonAuthGuard]
+    },
+    {
+        path: 'recover-password',
+        component: RecoverPasswordComponent,
+        canActivate: [NonAuthGuard]
+    },
+    {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
+        canActivate: [NonAuthGuard]
+    },
+    {path: '**', redirectTo: ''}
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy'})],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}

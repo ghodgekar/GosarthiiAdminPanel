@@ -1,0 +1,122 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                <button (click)="backBtn.back()" class="fancyButton width-75-px md-button md-ink-ripple" type="button">Back</button>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<!-- Main content -->
+<div *ngFor="let user of allUsers; let i =index">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" style="padding: 5px">
+                        <div class="col-md-2 ng-binding">Driver Name :</div>
+                        <div class="col-md-4 ng-binding">{{user.driver_name}}</div>
+                        <div class="col-md-2 ng-binding">Phone No :</div>
+                        <div class="col-md-4 ng-binding">+91{{user.driver_phone}}</div>
+                    </div>
+                    <div class="row" style="padding: 5px">
+                        <!-- ngIf: !multipleVehicleEnabled --><div class="col-md-2 ng-binding ng-scope" ng-if="!multipleVehicleEnabled">Vehicle Type :</div><!-- end ngIf: !multipleVehicleEnabled -->
+                        <!-- ngIf: !multipleVehicleEnabled --><div class="col-md-4 ng-binding ng-scope" ng-if="!multipleVehicleEnabled">TAXI</div><!-- end ngIf: !multipleVehicleEnabled -->
+                        <div class="col-md-2 ng-binding">App Version :</div>
+                        <div class="col-md-4 ng-binding">435</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" style="padding: 5px">
+                        <div class="col-md-6">
+                            <h4 class="ng-binding">Driver Image</h4>
+                            <h5 class="ng-binding">
+                                (Mandatory for Registration)
+                            </h5>
+                            <!-- ngIf: str.doc_url --><label class="ng-binding ng-scope">Status :<span [ngStyle]="{ color: user.driver_status <= 3 ? 'red' : user.driver_status == 4 ? 'red' : 'green' }" class="ng-binding">
+                             <span *ngIf="user.driver_status === 1">Document Upload Pending</span> <span *ngIf="user.driver_status === 2">Pending Approval</span> <span *ngIf="user.driver_status === 3">Rejected</span> <span *ngIf="user.driver_status === 4">Approved</span>    </span></label><!-- end ngIf: str.doc_url -->
+                        </div>
+                        <div class="col-md-6">
+                            <div ng-if="(str.doc_url.length || str.doc_info.length)" class="text-center ng-scope">
+                                <button class="md-fab md-mini md-button md-ink-ripple" type="button" ng-transclude="" (click)="open(DriverDoc)" aria-label="Click to view" md-labeled-by-tooltip="md-tooltip-85">
+                                    <i class="fa fa-eye ng-scope" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <ng-template #DriverDoc let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Document Image (Driver Image)</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="user.driver_status === 1">
+                <div class="row" *ngIf="!showUploadDocDiv">
+                    <div class="col-sm-2" *ngFor="let driverdoc of driverDocumentList; let i =index" (click)="uploadPanelDisplay(i)">
+                        {{driverdoc.doc_name}}
+                    </div>
+                </div>
+                <div *ngIf="showUploadDocDiv">
+                    <div class="row text-center justify-content-md-center">
+                        <div class="col-sm-12">
+                            <button (click)="docBack()" class="fancyButton width-75-px md-button md-ink-ripple" type="button">Back</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <br><br>
+                            <h3>{{document_title}}</h3>
+                            <form [formGroup]="fileUploadForm" enctype="multipart/form-data" (ngSubmit)="onFormSubmit()">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="image" (change)="onFileSelect($event)" #UploadFileInput>
+                                    <label class="custom-file-label" for="customFile">{{fileInputLabel || 'Choose File'}}</label>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Upload</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="user.driver_status === 2">
+                Driver History
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <img src="../../../../assets/img/default-profile.png" alt="" width="100%">
+                    </div>
+                    <div class="col-lg-8">
+                        Select a Reason
+                        <div class="form-group">
+                            <div *ngFor="let rejectionStatus of allRejectStatus; let i =index">
+                                <input type="radio" value="{{rejectionStatus._id}}" name="gender" formControlName="rejection_reason">
+                                <label>{{rejectionStatus.status_name}}</label>
+                            </div>
+                        </div>
+                        <div style="padding-top: 20px;text-align: right;" aria-hidden="false">
+                            <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" style="margin: 8px 5px;" ng-disabled="rejection_reason" aria-hidden="false" disabled="disabled" (click)="updateStatus('4')"><span class="ng-binding ng-scope">APPROVE</span></button>
+                            <button class="md-warn md-button md-ink-ripple" type="button" ng-transclude="" style="margin: 8px 5px;" aria-hidden="false" (click)="updateStatus('3')"><span class="ng-binding ng-scope">REJECT</span></button>
+                            <!-- <button class="fancyButton md-button md-ink-ripple ng-hide" type="button" ng-transclude="" style="margin: 8px 5px;" aria-hidden="true" disabled="disabled"><span class="ng-binding ng-scope">Update Doc Info</span></button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="user.driver_status === 3">
+
+            </div>
+            <div *ngIf="user.driver_status === 4">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+    </ng-template>
+</div>

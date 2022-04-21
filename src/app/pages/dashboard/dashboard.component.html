@@ -1,0 +1,424 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard</h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-6 text-center border-right">
+                <div class="col-lg-12 sub-heading pl-pr-0">
+                    <label for="userId" class="ng-binding">User Details</label>
+                </div>
+                <div class="col-lg-12" style="display: inline-flex;padding: 20px 20px 30px 20px;">
+                    <input type="text" id="userId" class="form-control text-center ng-pristine ng-valid ng-touched" placeholder="Enter User ID/Phone/Email" ng-change="checkInputTypeUser(userID,'userId')" ng-model="userID" ng-enter="getUserInfo()" aria-invalid="false">
+                </div>
+                <div class="col-lg-12 d-flex justify-content-center" style="padding-left: 10px;padding-right: 10px">
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" value="0" ng-model="userSearchType">
+                            User Id
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="1" ng-model="userSearchType">
+                            Email
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="2" ng-model="userSearchType">
+                            Phone
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-12 button-user">
+                    <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" style="width: 50%" ng-click="getUserInfo()" ng-disabled="userDetailsBtn"><span class="ng-binding">
+                        User Details
+                    </span></button>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6 text-center border-right">
+                <div class="col-lg-12 sub-heading pl-pr-0">
+                    <label for="driverId" class="ng-binding">Driver Details</label>
+                </div>
+                <div class="col-lg-12" style="display: inline-flex;padding: 20px 20px 30px 20px;">
+                    <input type="text" id="driverId" class="form-control text-center ng-pristine ng-valid ng-touched" placeholder="Enter Driver ID/Phone/Email" ng-change="checkInputTypeDriver(driverID,'driverId')" ng-model="driverId" ng-enter="getDriverInfo()" aria-invalid="false">
+                </div>
+                <div class="col-lg-12 d-flex justify-content-center" style="padding-left: 10px;padding-right: 10px">
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" value="0" ng-model="driverSearchType">
+                            Driver Id
+                        </label>
+                        <!-- <label class="radio-inline">
+                            <input type="radio" value="1" ng-model="driverSearchType">
+                            Email
+                        </label> -->
+                        <label class="radio-inline">
+                            <input type="radio" value="2" ng-model="driverSearchType">
+                            Phone
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-12 button-driver">
+                    <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" style="width: 50%" ng-click="getDriverInfo()" ng-disabled="driverDetailsBtn"><span class="ng-binding">
+                        Driver Details
+                    </span></button>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6 text-center">
+                <div class="col-lg-12 sub-heading pl-pr-0">
+                    <label for="rideId" class="ng-binding">Ride Details</label>
+                </div>
+                <div class="col-lg-12" style="display: inline-flex;padding: 20px 20px 30px 20px;">
+                    <input type="text" id="rideId" class="form-control text-center ng-pristine ng-valid ng-touched" placeholder="Enter Ride ID/Phone/Email" ng-change="checkInputTyperide(rideID,'rideId')" ng-model="rideID" ng-enter="getrideInfo()" aria-invalid="false">
+                </div>
+                <div class="col-lg-12 d-flex justify-content-center" style="padding-left: 10px;padding-right: 10px">
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" value="0" ng-model="rideSearchType">
+                            Ride Id
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-12 button-ride">
+                    <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" style="width: 50%" ng-click="getrideInfo()" ng-disabled="rideDetailsBtn"><span class="ng-binding">
+                        Ride Details
+                    </span></button>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="text-center"><u>Driver Details</u></h4>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Driver ID</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <a ng-if="!smp" ng-click="redirectToDriverProfile(driverSummary.Suspended)" class="ng-binding">12185201</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Driver Number</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                Cry engin Singh
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Status</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding" ng-style="{'color': driverSummary.Suspended ? 'red':'green'} " style="color: green;">
+                                Active
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Phone No</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                +91220328017
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">City</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                Mumbai
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Joining Date
+                                </label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                31/03/2022
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label>DOB
+                                </label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                - <i ng-show="finalpermission.requestUserPhoneNoChange" class="fa fa-pencil edit-pencil" ng-click="openEditUserNameModal(driverSummary['date_of_birth'],'date_of_birth',true)" title="Edit" role="button" tabindex="0" aria-hidden="false"></i>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!multipleVehicleEnabled &amp;&amp; !showDeviceText">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Vehicle No</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                fy657456464
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!showDeviceText">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">App Version</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div ng-if="driverSummary['Device Name']!='' &amp;&amp; driverSummary['OS version']!=''" class="ng-binding">435</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!showDeviceText">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">Device</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                OnePlusHD1901
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!showDeviceText">
+                            <div class="col-lg-5">
+                                <label class="ng-binding">OS version</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-5 ng-binding">
+                                11
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" style="padding:0;">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Today's Completed Rides</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                0
+                            </div>
+                        </div>
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Hold Payment</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                No
+                            </div>
+                        </div>
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Bank Account No.</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                -
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Ongoing Ride</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                No
+                            </div>
+                        </div>
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Credit Wallet Balance</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                0
+                            </div>
+                        </div>
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Faulty Rides Percentage (Last 30 days)</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                0 %
+                            </div>
+                        </div>]
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Vehicle Type</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4 ng-binding">
+                                TAXI
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" style="padding: 0;">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Last Ride On</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding">31/03/2022 08:45 PM
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Last Latitude Longitude</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding">19.1566866, 72.9374123</label>
+                            </div>
+                        </div>
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Last Login At</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding">2022-04-01 13:00:59
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Last Location Updated At</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding">2022-04-01 14:05:10
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Ride Avg (Last 7 Days)</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding">0.00</label>
+                            </div>
+                        </div>
+            
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Last Driver Ref On</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label ng-if="!driverSummary['Last Referral']" class="ng-scope">-</label>
+                            </div>
+                        </div><!-- end ngIf: !showDeviceText -->
+            
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Ref. Avg (Last 7 Days)</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding"></label>
+                            </div>
+                        </div><!-- end ngIf: !showDeviceText -->
+            
+            
+                        <div class="row ng-scope" ng-if="!showDeviceText">
+                            <div class="col-lg-6">
+                                <label class="ng-binding">Today's First Login At</label>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>:</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="ng-binding"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main row -->
+</section>
+<!-- /.content -->
