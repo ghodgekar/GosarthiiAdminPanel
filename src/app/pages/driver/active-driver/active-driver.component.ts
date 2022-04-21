@@ -62,7 +62,7 @@ export class ActiveDriverComponent implements OnInit {
   }
 
   getStateCityData(){
-    this.http.get('http://localhost:8000/getAllCountriesStatesCities/').subscribe((response: any) => {
+    this.http.get('https://gosarthii-api.herokuapp.com/getAllCountriesStatesCities/').subscribe((response: any) => {
       console.log(response)
       this.StateCity = response[0].states;
     });

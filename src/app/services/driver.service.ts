@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-// const baseUrl = 'https://gosarthii-api.herokuapp.com';
-const baseUrl = 'http://localhost:80';
+const baseUrl = 'https://gosarthii-api.herokuapp.com';
+// const baseUrl = 'http://localhost:80';
 const addDriver = '/addDriver/';
 const getAllDriver = '/getAllDriver/';
 const getSingleDriver = '/getSingleDriver';
