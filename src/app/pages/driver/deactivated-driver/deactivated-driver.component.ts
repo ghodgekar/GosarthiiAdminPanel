@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DriverService } from '@services/driver.service';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-deactivated-driver',
@@ -13,7 +14,8 @@ export class DeactivatedDriverComponent implements OnInit {
   allUsers: any = [];
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: any = {};
-  constructor(private http: HttpClient,private router: Router,public driverservice:DriverService) { }
+  modalService: any;
+  constructor(private http: HttpClient,private router: Router,public driverservice:DriverService,private notifyService : NotificationService) { }
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',

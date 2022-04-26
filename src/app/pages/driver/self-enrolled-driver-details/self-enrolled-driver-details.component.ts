@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BackBtnService } from '@services/back-btn.service';
 import { DriverService } from '@services/driver.service';
+import { NotificationService } from '@services/notification.service';
 
 
 @Component({
@@ -20,11 +21,13 @@ export class SelfEnrolledDriverDetailsComponent implements OnInit {
   allUsers: any;
   @ViewChild('UploadFileInput', { static: false }) uploadFileInput: ElementRef;
   fileUploadForm: FormGroup;
+  driverHistoryForm:FormGroup;
   fileInputLabel: string;
   document_title:string;
   showUploadDocDiv: boolean;
   allDriverDocs: any=[];
   allRejectStatus: any=[];
+  driverHistory: any=[];
 
   driverDocumentList:any=[{ doc_id: "1", doc_name:"Profile Image", isBoolean:false},
   { doc_id: "2", doc_name:"Aadhar Card Front Page", isBoolean:false},
@@ -33,7 +36,7 @@ export class SelfEnrolledDriverDetailsComponent implements OnInit {
   { doc_id: "5", doc_name:"Driver Licence Image", isBoolean:false},
   { doc_id: "6", doc_name:"Police Verification Image", isBoolean:false}]
 
-  constructor(private modalService: NgbModal,private router: Router, public backBtn:BackBtnService, private Actrouter:ActivatedRoute, private driverservice:DriverService,private formBuilder: FormBuilder) { }
+  constructor(private modalService: NgbModal,private router: Router, public backBtn:BackBtnService, private Actrouter:ActivatedRoute, private driverservice:DriverService,private formBuilder: FormBuilder,private notifyService : NotificationService) { }
 
   ngOnInit(): void {
     this.fileUploadForm = this.formBuilder.group({
@@ -41,6 +44,12 @@ export class SelfEnrolledDriverDetailsComponent implements OnInit {
       driver_id: [''],
       doc_id: [''],
     });
+
+    this.driverHistoryForm = this.formBuilder.group({
+      driver_id:[''],
+      rejection_reason: ['']
+    });
+
     this.Actrouter.params.subscribe(paramsId => {
         this.driver_id = paramsId.driver_id;
     });
@@ -63,14 +72,6 @@ export class SelfEnrolledDriverDetailsComponent implements OnInit {
   public getDriverDocs():void{
     this.driverservice.getDriverDocs(this.driver_id).subscribe((response: any) => {
       this.allDriverDocs = response;
-      this.driverDocumentList.forEach(function (key1) {
-        response.forEach(function (key2) {
-          if (key1.doc_id == key2.driver_doc_id) {
-            key1.isBoolean == true;
-            console.log(key1)
-          }
-        });
-      });
     })
   }
   
@@ -113,13 +114,30 @@ export class SelfEnrolledDriverDetailsComponent implements OnInit {
       if(response){
         this.fileInputLabel = '';
         this.fileUploadForm.reset();
+        this.updateStatus(2);
+        this.users();
       }
+    })
+  }
+
+  saveDriverHistoryData(value){
+    if (!this.driverHistoryForm.valid) {
+      this.notifyService.showError('Please fill valid details!','a');
+      return false;
+    }
+    this.driverservice.addDriverHistory(value).subscribe((response: any) => {
+      if(response){
+        this.driverHistory = response;
+      }
+      this.notifyService.showSuccess("Driver Document Rejected","");
     })
   }
 
   updateStatus(status_id){
     this.driverservice.updateDriverStatus({'driver_status':status_id, 'driver_id':this.driver_id}).subscribe(response => {
-      console.log(response)
+      this.modalService.dismissAll('close modal');
+      this.notifyService.showSuccess("Driver Status Updated","");
+      this.users();
     })
   }
 

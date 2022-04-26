@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Subject} from 'rxjs';
 import { Router } from '@angular/router';
 import { DriverService } from '@services/driver.service';
+import { NotificationService } from '@services/notification.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-driver-enrollment',
@@ -13,7 +16,10 @@ export class DriverEnrollmentComponent implements OnInit{
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: any = {};
   defaultStatus:string='1';
-  constructor(private router: Router, private driverservice:DriverService) { }
+  closeResult: string = '';
+  driver_form: FormGroup;
+  StateCity: any;
+  constructor(private router: Router, private driverservice:DriverService,private modalService: NgbModal,private fb: FormBuilder,private notifyService : NotificationService) { }
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -23,6 +29,8 @@ export class DriverEnrollmentComponent implements OnInit{
       buttons: ['pageLength', 'copy', 'print', 'csv','pdf','excel']
     };
     this.users();
+    this.createDriverData();
+    this.getStateCityData();
   }
 
   users(): void {
@@ -38,6 +46,60 @@ export class DriverEnrollmentComponent implements OnInit{
 
   getTableData(id):void{
     this.defaultStatus = id;
-    this.users();
+    this.driverservice.getAllDriver(id).subscribe((response: any) => {
+      this.allUsers = response;
+    })
+  }
+
+  open(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  } 
+
+  getStateCityData(){
+    this.driverservice.getStateCityData().subscribe((response: any) => {
+      this.StateCity = response[0].states;
+    });
+  }
+
+  createDriverData() {
+    this.driver_form = this.fb.group({
+      driver_id:[Math.floor(1000000 + Math.random() * 900000)],
+      driver_name: ['', Validators.required ],
+      driver_phone: ['', Validators.required ],
+      device_type: ['', Validators.required ],
+      driver_address: ['', Validators.required ],
+      driver_state: ['', Validators.required ],
+      driver_city: ['', Validators.required ],
+      driver_pincode: ['', Validators.required ]
+   });
+  }
+
+  saveDriverData(value){
+    if(this.driver_form.valid){
+      this.driverservice.addDriver(value).subscribe((response: any) => {
+        this.notifyService.showSuccess('Driver Added Succesfully','');
+        this.allUsers = response.data;
+        this.driver_form.reset();
+        this.getStateCityData();
+        this.createDriverData();
+        this.modalService.dismissAll('close modal');
+      });
+    }else{
+      this.notifyService.showError('Please enter all details of driver','')
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 }

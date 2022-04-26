@@ -45,6 +45,7 @@ import { ActiveDriverComponent } from '@pages/driver/active-driver/active-driver
 import { DeactivatedDriverComponent } from './pages/driver/deactivated-driver/deactivated-driver.component';
 import { DriverDetailsComponent } from './pages/driver/driver-details/driver-details.component';
 import { SelfEnrolledDriverDetailsComponent } from './pages/driver/self-enrolled-driver-details/self-enrolled-driver-details.component';
+import {FormsModule} from "@angular/forms";
 
 registerLocaleData(localeEn, 'en-EN');
 
@@ -95,7 +96,8 @@ registerLocaleData(localeEn, 'en-EN');
             positionClass: 'toast-top-right',
             preventDuplicates: true
         }),
-        NgbModule
+        NgbModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

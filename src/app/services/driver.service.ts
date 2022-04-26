@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const baseUrl = 'https://gosarthii-api.herokuapp.com';
-// const baseUrl = 'http://localhost:80';
+// const baseUrl = 'https://gosarthii-api.herokuapp.com';
+const baseUrl = 'http://localhost:80';
 const addDriver = '/addDriver/';
 const getAllDriver = '/getAllDriver/';
 const getSingleDriver = '/getSingleDriver';
@@ -11,6 +11,7 @@ const getDriverDocs = '/getDriverDocs/';
 const updateDriverStatus = '/updateDriverStatus/';
 const getAllStatus = '/getAllStatus/';
 const addDriverHistory = '/addDriverHistory/';
+const getStateCityData = '/getAllCountriesStatesCities/';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,13 @@ export class DriverService {
 
   constructor(private http: HttpClient) { }
 
+  getStateCityData(){
+    return this.http.get(baseUrl + getStateCityData)
+  }
+
   addDriver(data) {
+    let headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+    let options = { headers: headers };
     return this.http.post(baseUrl + addDriver, data);
   }
 
@@ -34,6 +41,10 @@ export class DriverService {
 
   getSingleDriver(driver_id) {
     return this.http.get(baseUrl + getSingleDriver + "?driver_id=" + driver_id);
+  }
+
+  getDriverSearch(query){
+    return this.http.get(baseUrl + getSingleDriver + "?" + query);
   }
 
   getDriverDocs(driver_id) {

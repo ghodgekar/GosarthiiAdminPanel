@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BackBtnService } from '@services/back-btn.service';
 import { DriverService } from '@services/driver.service';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-driver-details',
@@ -24,7 +25,7 @@ export class DriverDetailsComponent implements OnInit {
   driver_active_form:FormGroup;
   ActiveStatus:boolean=false;
   DeactiveStatus:boolean=false;
-  constructor(private modalService: NgbModal,private router: Router,private driverservice: DriverService,private Actrouter: ActivatedRoute, public backBtn:BackBtnService, public fb:FormBuilder) { }
+  constructor(private modalService: NgbModal,private router: Router,private driverservice: DriverService,private Actrouter: ActivatedRoute, public backBtn:BackBtnService, public fb:FormBuilder,private notifyService : NotificationService) { }
 
   ngOnInit(): void {
     this.getActivationReason();
@@ -43,7 +44,8 @@ export class DriverDetailsComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-  } 
+  }
+  
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -99,16 +101,18 @@ export class DriverDetailsComponent implements OnInit {
     })
     this.driverservice.addDriverHistory(value).subscribe(response => {
       this.driver_deactive_form.reset();
-      this.DeactiveStatus = true;
+      this.notifyService.showSuccess("Driver Deactivated Successfully","");
+      this.modalService.dismissAll('close modal');
     })
   }
 
   saveActiveDriver(value){
-    this.driverservice.updateDriverStatus({driver_id:this.driver_id, driver_status:2}).subscribe(key => {
+    this.driverservice.updateDriverStatus({driver_id:this.driver_id, driver_status:4}).subscribe(key => {
     })
     this.driverservice.addDriverHistory(value).subscribe(response => {
       this.driver_active_form.reset();
-      this.ActiveStatus = true;
+      this.notifyService.showSuccess("Driver Activated Successfully","");
+      this.modalService.dismissAll('close modal');
     })
   }
 

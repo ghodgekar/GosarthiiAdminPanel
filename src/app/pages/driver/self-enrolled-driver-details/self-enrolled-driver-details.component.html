@@ -61,10 +61,15 @@
         </button>
         </div>
         <div class="modal-body">
-            <div *ngIf="user.driver_status === 1">
+            <div *ngIf="user.driver_status === 1 || user.driver_status === 3">
                 <div class="row" *ngIf="!showUploadDocDiv">
                     <div class="col-sm-2" *ngFor="let driverdoc of driverDocumentList; let i =index" (click)="uploadPanelDisplay(i)">
                         {{driverdoc.doc_name}}
+                        <div *ngFor="let driverUploadeddoc of allDriverDocs; let i =index">
+                            <div *ngIf="driverUploadeddoc.driver_doc_id == driverdoc.doc_id">
+                                <img src="../../../../assets/img/success.png" width="100" alt="" srcset="">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="showUploadDocDiv">
@@ -88,6 +93,7 @@
             </div>
             <div *ngIf="user.driver_status === 2">
                 Driver History
+                <!-- <form [formGroup]="driver_form" (ngSubmit)="saveDriverData(driver_form.value)"> -->
                 <div class="row">
                     <div class="col-lg-4 text-center">
                         <img src="../../../../assets/img/default-profile.png" alt="" width="100%">
@@ -96,20 +102,18 @@
                         Select a Reason
                         <div class="form-group">
                             <div *ngFor="let rejectionStatus of allRejectStatus; let i =index">
-                                <input type="radio" value="{{rejectionStatus._id}}" name="gender" formControlName="rejection_reason">
+                                <input type="radio" value="{{rejectionStatus._id}}" name="gender">
                                 <label>{{rejectionStatus.status_name}}</label>
                             </div>
                         </div>
                         <div style="padding-top: 20px;text-align: right;" aria-hidden="false">
                             <button class="fancyButton md-button md-ink-ripple" type="button" ng-transclude="" style="margin: 8px 5px;" ng-disabled="rejection_reason" aria-hidden="false" disabled="disabled" (click)="updateStatus('4')"><span class="ng-binding ng-scope">APPROVE</span></button>
-                            <button class="md-warn md-button md-ink-ripple" type="button" ng-transclude="" style="margin: 8px 5px;" aria-hidden="false" (click)="updateStatus('3')"><span class="ng-binding ng-scope">REJECT</span></button>
+                            <button class="md-warn md-button md-ink-ripple" type="submit" ng-transclude="" style="margin: 8px 5px;" aria-hidden="false" (click)="updateStatus('3')"><span class="ng-binding ng-scope">REJECT</span></button>
                             <!-- <button class="fancyButton md-button md-ink-ripple ng-hide" type="button" ng-transclude="" style="margin: 8px 5px;" aria-hidden="true" disabled="disabled"><span class="ng-binding ng-scope">Update Doc Info</span></button> -->
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="user.driver_status === 3">
-
+                <!-- </form> -->
             </div>
             <div *ngIf="user.driver_status === 4">
 
